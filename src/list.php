@@ -61,6 +61,13 @@ class flist implements iflist {
 
         return $returnArray;
     }
+
+    public function __invoke(int $offset) {
+        if ($offset < 0) throw new \RuntimeException('You asked for a negative offset on an flist');
+        if ($offset == 0) return $this->element();
+        $next = $this->list();
+        return $next($offset - 1);
+    }
 }
 
 function flist(...$argv) {
