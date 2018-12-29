@@ -98,9 +98,29 @@ $initial = flist(fl2list('alpha', 'beta'),
     flist(fl2list('gamma', 'delta'),
         flist(fl2list('epsilon', 'theta') )));
 
+// Remove middle element
 $expected = flist(fl2list('alpha', 'beta'),
         flist(fl2list('epsilon', 'theta') ));
 
 $removed = remove($initial, 'gamma');
-assertEquals($expected, $removed, 'removal failed');
+assertEquals($expected, $removed, 'middle element removal failed');
+
+// first element removal
+$expected = flist(fl2list('gamma', 'delta'),
+    flist(fl2list('epsilon', 'theta') ));
+
+$removed = remove($initial, 'alpha');
+assertEquals($expected, $removed, 'first element removal failed');
+
+// last element removal
+$expected = flist(fl2list('alpha', 'beta'),
+    flist(fl2list('gamma', 'delta')));
+
+$removed = remove($initial, 'epsilon');
+assertEquals($expected, $removed, 'last element removal failed');
+
+// Test offset
+$list = flist(1, flist(2, flist(3, flist(4, flist(5)))));
+assertEquals(5, $list(4), 'offset check');
+assertEquals(3, $list(2), 'offset check');
 
