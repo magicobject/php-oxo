@@ -11,7 +11,9 @@ The strategy.php runs the game from the computer's point of view by traversing t
 Square numbers are:
 
 0 | 1 | 2
+
 3 | 4 | 5
+
 6 | 7 | 8
 
 Quirks - occasionally the game will eschrow an immediate win, in this case the win will come eventually.
