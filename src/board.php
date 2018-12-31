@@ -93,7 +93,7 @@ function replace_piece_on_board (iflist $flist, $key, $value) {
 }
 
 /**
- * I taks a board(flist) and return an flist of boards with the possible next move played
+ * I take a board(flist) and return an flist of boards with the possible next move played
  * @param flist $board
  * @param $last_piece_moved
  * @return flist
