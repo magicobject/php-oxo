@@ -53,7 +53,7 @@ $x3 = function($a) { return 3*$a; };
 assertEquals([9,6,3,6,3], map($x3, $concatinated)->toArray() );
 assertEquals([1,2,1,2,3], reverse( $concatinated )->toArray() );
 
-// Concatination tests
+// Concatenation tests
 assertEquals(flist(), concatenate(flist(), flist()));
 assertEquals($fourlist, concatenate($fourlist, flist()));
 assertEquals($fourlist, concatenate(flist(), $fourlist));

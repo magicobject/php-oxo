@@ -2,11 +2,11 @@
 declare(strict_types = 1);
 
 interface iflist {
-    public function isEmpty();
+    public function isNull();
 }
 
 class emptyList implements iflist {
-    public function isEmpty() : bool {
+    public function isNull() : bool {
         return true;
     }
 }
@@ -17,7 +17,7 @@ class emptyList implements iflist {
 class flist implements iflist {
     private $element;
 
-    public function isEmpty() : bool {
+    public function isNull() : bool {
         return false;
     }
 
@@ -29,22 +29,16 @@ class flist implements iflist {
         $this->list = $list;
     }
 
+
     public function element() {
         return $this->element;
     }
 
     /**
-     * @return flist|null
+     * @return iflist|null
      */
     public function list() {
         return $this->list;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isNull() {
-        return is_null($this->list);
     }
 
     /**
@@ -57,7 +51,7 @@ class flist implements iflist {
         do {
             $returnArray[] = $list->element;
             $list = $list->list();
-        } while(!$list->isEmpty());
+        } while(!$list->isNull());
 
         return $returnArray;
     }
@@ -65,6 +59,7 @@ class flist implements iflist {
     public function __invoke(int $offset) {
         if ($offset < 0) throw new \RuntimeException('You asked for a negative offset on an flist');
         if ($offset == 0) return $this->element();
+        /** @var flist $next */
         $next = $this->list();
         return $next($offset - 1);
     }
@@ -89,8 +84,8 @@ function flist(...$argv) {
  * @return flist
  */
 function concatenate(iflist $left, iflist $right) : iflist {
-    if ($left->isEmpty()) return $right;
-    if ($right->isEmpty()) return $left;
+    if ($left->isNull()) return $right;
+    if ($right->isNull()) return $left;
 
     $append_element = function($a, flist $b) {
         return flist($a, $b);
@@ -106,7 +101,7 @@ function fcopy(flist $list) {
 }
 
 function length(flist $flist) {
-    if ($flist->isEmpty()) return 0;
+    if ($flist->isNull()) return 0;
     $counter = function($element, $count) { return $count+1; };
     return fold_r(0, $counter, $flist);
 }
@@ -119,14 +114,14 @@ function map($op, ?flist $flist) {
 }
 
 function fold_r($base, $op, iflist $flist) {
-    if ($flist->isEmpty()) {
+    if ($flist->isNull()) {
         return $base;
     }
     return $op($flist->element(), fold_r($base, $op, $flist->list()));
 }
 
 function fold_l($base, $op, iflist $flist) {
-    if ($flist->isEmpty()) {
+    if ($flist->isNull()) {
         return $base;
     }
     $accumulated = $op($flist->element(), $base);
@@ -165,8 +160,8 @@ function fl2list($a, $b) {
 
 function zip2(iflist $a, iflist $b) : iflist
 {
-    if ($a->isEmpty()) return $b;
-    if ($b->isEmpty()) return $a;
+    if ($a->isNull()) return $b;
+    if ($b->isNull()) return $a;
     return flist(fl2list($a->element(), $b->element()), zip2($a->list(), $b->list()));
 }
 
@@ -174,7 +169,7 @@ function zip2(iflist $a, iflist $b) : iflist
 function replace (iflist $flist, $key, $value) {
 
     $replacement = function(?iflist $old_list, ?iflist $accumulating_list) use ($key, $value) {
-        if ($old_list->isEmpty()) return $accumulating_list;
+        if ($old_list->isNull()) return $accumulating_list;
 
         if ($old_list->element() == $key) {
             $newf2list = fl2list($key, $value);
@@ -191,7 +186,7 @@ function replace (iflist $flist, $key, $value) {
 function remove (flist $flist, $key) {
 
     $replacement = function(iflist $next_element, iflist $accumulating_list) use ($key) {
-        if ($next_element->isEmpty()) return $accumulating_list;
+        if ($next_element->isNull()) return $accumulating_list;
 
         if ($next_element->element() == $key) {
             return $accumulating_list;
