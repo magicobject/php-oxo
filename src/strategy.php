@@ -11,8 +11,13 @@ function calculate_computers_move(flist $board) : int
     $next_scores = next_scores($board);
     $next_scores_array = $next_scores->toArray();
 
-    $square_score = max_pair(zip2($available_squares, $next_scores));
-    return $square_score->element();
+    $pairs = zip2($available_squares, $next_scores);
+
+    $max_square_score_pair = max_pair($pairs);
+
+    /** @var int */
+    $square = $max_square_score_pair->element();
+    return $square;
 }
 
 function next_scores($board)

@@ -32,6 +32,7 @@ do {
     $board = move($board, $players_piece, $square);
     render($board);
     if (game_over($board)) break;
+    echo "\n";
 
     // Computer's move
     $square = calculate_computers_move($board);
