@@ -18,4 +18,4 @@ Square numbers are:
 
 Quirks - occasionally the game will eschrow an immediate win, in this case the win will come eventually.
 The implementatin is slow so try switching off xdebug.
-The code qould be muchbetter if PHP had a better type system and made it easier to compose and pipe functions. See the ruby version for a better implementation.
+The code would be much better if PHP had a better type system and made it easier to compose and pipe functions. See the ruby version for a better implementation.
